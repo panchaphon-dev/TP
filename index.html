@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HD Shop | Luxury Streetwear</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- เพิ่มไลบรารีสำหรับอ่าน QR Code จากรูปภาพ (jsQR) -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+</head>
+<body>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">
+        <i class="fas fa-bell" style="color:var(--gold); font-size:1.5rem;"></i>
+        <div>
+            <h4 style="margin:0; color:var(--gold);">ข้อความใหม่</h4>
+            <p style="margin:0; font-size:0.9rem; color:#ccc;">แอดมินตอบกลับคุณแล้ว</p>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo" onclick="window.scrollTo(0,0)">
+            <i class="fas fa-crown"></i> T<span>P</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#gallery">GALLERY</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#creators">CREATORS</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+        </ul>
+        <div class="nav-icons">
+            <div class="icon-btn" onclick="openProfile()">
+                <i class="far fa-user"></i>
+            </div>
+            <div class="icon-btn" onclick="toggleCart()">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cart-count" class="badge">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <p>ESTABLISHED 2025</p>
+        <h1>STREETWEAR<br><span style="color:var(--gold);">REVOLUTION</span></h1>
+        <button class="btn-gold" style="margin-top:30px; width:auto; padding-left:50px; padding-right:50px; z-index:10;" onclick="scrollToGallery()">SHOP NOW</button>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery">
+        <div class="center-box"><h2 class="section-title">LATEST DROPS</h2></div>
+        
+        <div class="search-container">
+            <i class="fas fa-search" style="color:#666;"></i>
+            <input type="text" id="search-box" class="search-input" placeholder="ค้นหาสินค้า..." onkeyup="searchProduct()">
+        </div>
+
+        <div style="text-align:center; margin-bottom:40px;">
+            <button onclick="renderProducts('all', this)" class="filter-btn active">ALL</button>
+            <button onclick="renderProducts('Sneaker', this)" class="filter-btn">SNEAKERS</button>
+            <button onclick="renderProducts('Apparel', this)" class="filter-btn">APPAREL</button>
+            <button onclick="renderProducts('Accessories', this)" class="filter-btn">ACCESSORIES</button>
+        </div>
+
+        <div class="grid-container" id="product-list"></div>
+    </section>
+
+    <!-- About Me -->
+    <section id="about" style="padding:80px 50px; background:rgba(255,255,255,0.02);">
+        <div class="center-box"><h2 class="section-title">ABOUT US</h2></div>
+        <div style="max-width:800px; margin:0 auto; text-align:center; line-height:1.8; color:#ccc;">
+            <p>ยินดีต้อนรับสู่ <strong>HardBeat Shop</strong> แหล่งรวมสตรีทแวร์ระดับพรีเมียม เราคัดสรรสินค้าคุณภาพสูงไม่ว่าจะเป็นรองเท้า เสื้อผ้า และเครื่องประดับ เพื่อให้คุณได้แสดงออกถึงสไตล์ที่เป็นเอกลักษณ์</p>
+        </div>
+    </section>
+
+    <!-- Creators -->
+    <section id="creators" style="padding:80px 0;">
+        <div class="center-box"><h2 class="section-title">THE CREATORS</h2></div>
+        <div style="display:flex; justify-content:center; gap:50px; flex-wrap:wrap;">
+            <div style="text-align:center;">
+                <img src="โต้.jpg" style="width:200px; height:200px; object-fit:cover; border-radius:50%; border:3px solid var(--gold); margin-bottom:20px;" onerror="this.src='https://via.placeholder.com/200?text=Creator'">
+                <h3 style="color:var(--gold);">นายปัญจพล เนาวิรัตน์ เลขที่12</h3>
+                <p style="color:#666;">ID: 683190900012</p>
+                <p>สาขา เทคโนโลยีคอมพิวเตอร์</p>
+            </div>
+            <div style="text-align:center;">
+               <img src="พี.jpg" style="width:200px; height:200px; object-fit:cover; border-radius:50%; border:3px solid var(--gold); margin-bottom:20px;" onerror="this.src='https://via.placeholder.com/200?text=Creator'">
+                <h3 style="color:var(--gold);">นาย พีรวัส เมืองกลาง เลขที่ 13</h3>
+                <p style="color:#666;">ID: 683190900013</p>
+                <p>สาขา เทคโนโลยีคอมพิวเตอร์</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" style="padding:80px 50px; background:#080808;">
+        <div class="center-box"><h2 class="section-title">CONTACT US</h2></div>
+        <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap; text-align:center;">
+            <div style="width:300px;">
+                <i class="fas fa-map-marker-alt" style="font-size:2rem; color:var(--gold); margin-bottom:15px;"></i>
+                <h3>ADDRESS</h3>
+                <p style="color:#888;">123 Streetwear Ave, Bangkok, Thailand 10110</p>
+            </div>
+            <div style="width:300px;">
+                <i class="fas fa-phone" style="font-size:2rem; color:var(--gold); margin-bottom:15px;"></i>
+                <h3>PHONE</h3>
+                <p style="color:#888;">092-819-8431</p>
+            </div>
+            <div style="width:300px;">
+                <i class="fas fa-envelope" style="font-size:2rem; color:var(--gold); margin-bottom:15px;"></i>
+                <h3>EMAIL</h3>
+                <p style="color:#888;">support@hardbeat.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background:#000; padding:40px; text-align:center; border-top:1px solid #222;">
+        <div class="logo" style="margin-bottom:20px;">T<span>P</span></div>
+        <p style="color:#666;">&copy; 2025 HardBeat Shop. All Rights Reserved.</p>
+        <div style="margin-top:20px;">
+            <a href="admin.html" style="color:#444; font-size:0.8rem; text-decoration:none; border:1px solid #333; padding:5px 15px; border-radius:20px;">Admin Access</a>
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+    <!-- 1. Product Detail -->
+    <div id="product-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-close" onclick="closeModal()">&times;</div>
+            <div style="flex:1; background:black; display:flex; align-items:center; justify-content:center;">
+                <img id="m-img" src="" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+            <div style="flex:1; padding:40px; overflow-y:auto; background:#111;">
+                <div id="m-cat" style="color:var(--gold); letter-spacing:2px; font-size:0.9rem;">CATEGORY</div>
+                <h2 id="m-name" style="font-size:2.5rem; margin:10px 0; color:white;">Name</h2>
+                <div id="m-price" style="font-size:2rem; color:var(--gold); margin-bottom:20px; font-weight:bold;">Price</div>
+                <p id="m-desc" style="color:#aaa; margin-bottom:30px; line-height:1.6;">Description</p>
+                <div style="margin-bottom:10px; color:#aaa;" id="variant-label">Option</div>
+                <div id="variant-area" style="margin-bottom:20px;"></div>
+                <div id="size-chart-content" style="margin-bottom:20px; display:none;"></div>
+                <button class="btn-gold" style="width:100%; margin-bottom:30px;" onclick="addToCartFromModal()">ADD TO CART</button>
+                <div style="border-top:1px solid #333; padding-top:20px;">
+                    <h4 style="color:white; margin-bottom:15px;">REVIEWS</h4>
+                    <div id="reviews-list" style="margin-bottom:10px; max-height:100px; overflow-y:auto;"></div>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="review-input" placeholder="เขียนรีวิว..." style="margin-bottom:0; flex:1; padding:10px;">
+                        <button onclick="submitReview()" style="background:#333; color:white; border:none; padding:0 20px; cursor:pointer;">POST</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Checkout (อัปเดตระบบตรวจสลิป) -->
+    <div id="checkout-modal" class="modal-overlay">
+        <div class="modal-box" style="width:500px; height:auto; padding:40px; display:block; overflow-y:auto; border:2px solid var(--gold);">
+            <div class="modal-close" onclick="document.getElementById('checkout-modal').classList.remove('active')">&times;</div>
+            <h2 style="color:var(--gold); text-align:center; margin-bottom:30px;">CONFIRM ORDER</h2>
+            <input type="text" id="co-name" placeholder="ชื่อ-นามสกุล" class="form-input" style="margin-bottom:10px;">
+            <input type="text" id="co-tel" placeholder="เบอร์โทรศัพท์" class="form-input" style="margin-bottom:10px;">
+            <textarea id="co-addr" rows="3" placeholder="ที่อยู่จัดส่ง" class="form-input" style="margin-bottom:10px;"></textarea>
+            
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <input type="text" id="promo-code" placeholder="รหัสส่วนลด (ถ้ามี)" class="form-input" style="margin-bottom:0;">
+                <button onclick="applyPromo()" style="background:#333; color:white; border:1px solid #444; width:100px; cursor:pointer;">ใช้โค้ด</button>
+            </div>
+            <div id="promo-msg" style="color:var(--gold); font-size:0.9rem; margin-bottom:10px; display:none;"></div>
+
+            <select id="co-payment" onchange="togglePayMethod()" class="form-input" style="margin-bottom:15px;">
+                <option value="cod">เก็บเงินปลายทาง (COD)</option>
+                <option value="qr">โอนเงิน / สแกน QR</option>
+            </select>
+            
+            <div id="qr-section" style="display:none; text-align:center; background:white; padding:20px; border-radius:10px; margin-bottom:20px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0928198431" width="150">
+                <p style="color:black; font-weight:bold; margin-top:10px;">ยอดชำระ: <span id="qr-amount" style="color:red; font-size:1.5rem;">0</span> บาท</p>
+                <div style="margin-top:15px; border-top:1px dashed #ccc; padding-top:10px;">
+                    <label style="color:black; font-size:0.9rem; font-weight:bold;">แนบสลิปเพื่อตรวจสอบ:</label>
+                    <input type="file" id="slip-file" accept="image/*" style="margin-top:5px; width:100%;">
+                    
+                    <!-- ปุ่มสำหรับกดตรวจสอบสลิป -->
+                    <button onclick="verifySlip()" style="margin-top:10px; width:100%; background:#000; color:var(--gold); border:1px solid var(--gold); padding:8px; cursor:pointer; font-weight:bold;">
+                        <i class="fas fa-qrcode"></i> ตรวจสอบสลิป (Scan)
+                    </button>
+                    
+                    <!-- พื้นที่แสดงผลการตรวจสอบ -->
+                    <div id="verify-status" style="margin-top:10px; font-weight:bold; font-size:0.9rem; display:none;"></div>
+                </div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold;">
+                <span>Total:</span>
+                <span id="final-total" style="color:var(--gold); font-size:1.2rem;">฿0</span>
+            </div>
+
+            <button class="btn-gold" style="width:100%;" onclick="confirmOrder()">PLACE ORDER</button>
+        </div>
+    </div>
+
+    <!-- 3. Profile -->
+    <div id="profile-modal" class="modal-overlay">
+        <div class="modal-box" style="width:900px; padding:0;">
+            <div class="modal-close" onclick="document.getElementById('profile-modal').classList.remove('active')">&times;</div>
+            <div style="display:flex; width:100%;">
+                <div style="width:35%; background:#111; padding:30px; text-align:center; border-right:1px solid #333;">
+                    <img id="p-avatar" src="" style="width:120px; height:120px; border-radius:50%; border:3px solid var(--gold); object-fit:cover; margin-bottom:20px;">
+                    <h3 id="p-name" style="color:var(--gold);">User</h3>
+                    <p id="p-email" style="color:#666; font-size:0.9rem; margin-bottom:30px;">email</p>
+                    <div style="margin-bottom:20px;">
+                        <input type="text" id="avatar-url" placeholder="วางลิงก์รูปภาพ..." class="form-input" style="margin-bottom:5px; padding:8px; font-size:0.8rem;">
+                        <button onclick="saveAvatar()" style="width:100%; background:#333; color:white; border:none; padding:5px; cursor:pointer;">เปลี่ยนรูป</button>
+                    </div>
+                    <button onclick="logout()" style="width:100%; background:#ff4d4d; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">LOGOUT</button>
+                </div>
+                <div style="width:65%; padding:30px; background:#151515; overflow-y:auto;">
+                    <h3 style="color:white; margin-bottom:20px;">ORDER HISTORY</h3>
+                    <div id="order-history"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ส่งข้อความหาadmin -->
+    <div onclick="toggleChat()" style="position:fixed; bottom:20px; right:20px; background:var(--gold); width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:3000; box-shadow:0 0 20px rgba(212,175,55,0.6);">
+        <i class="fas fa-comment-dots" style="font-size:1.8rem; color:rgb(0, 0, 0);"></i>
+    </div>
+    <div id="chat-widget" class="chat-widget">
+        <div style="background:var(--gold); color:black; padding:15px; font-weight:bold; border-radius:15px 15px 0 0;">
+            Contact Support <i class="fas fa-times" style="float:right; cursor:pointer;" onclick="toggleChat()"></i>
+        </div>
+        <div id="chat-body" style="flex:1; padding:15px; overflow-y:auto; background:#000;"></div>
+        <div style="padding:15px; border-top:1px solid #333; display:flex;">
+            <input type="text" id="chat-input-text" placeholder="พิมพ์ข้อความ..." style="flex:1; background:#222; border:none; color:white; margin-bottom:0; padding:10px;">
+            <button onclick="sendChat()" style="background:var(--gold); border:none; padding:0 15px; cursor:pointer; margin-left:5px; border-radius:5px;"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" style="position:fixed; top:0; right:-400px; width:400px; height:100%; background:rgba(10,10,10,0.98); border-left:1px solid var(--gold); transition:0.4s; z-index:2001; padding:30px; display:flex; flex-direction:column;">
+        <h3 style="color:var(--gold); padding-bottom:10px; border-bottom:1px solid #333;">YOUR CART <i class="fas fa-times" onclick="toggleCart()" style="float:right; cursor:pointer;"></i></h3>
+        <div id="cart-items" style="flex:1; overflow-y:auto; margin-top:10px;"></div>
+        <div style="padding-top:10px; border-top:1px solid #333;">
+            <div style="display:flex; justify-content:space-between; font-size:1.5rem; font-weight:bold; margin-bottom:20px;">
+                <span>Total:</span> <span id="cart-total" style="color:var(--gold);">฿0</span>
+            </div>
+            <button onclick="checkout()" class="btn-gold" style="width:100%;">CHECKOUT</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function scrollToGallery() {
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

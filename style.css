@@ -1,0 +1,265 @@
+/* --- Global Settings --- */
+:root {
+    --bg-dark: #050505;
+    --card-bg: rgba(20, 20, 20, 0.9);
+    --card-border: 1px solid rgba(212, 175, 55, 0.2);
+    --gold: #D4AF37;
+    --gold-glow: 0 0 15px rgba(212, 175, 55, 0.4);
+    --text-main: #ffffff;
+    --success: #00e676;
+    --danger: #ff4d4d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+
+html { scroll-behavior: smooth; } /* เพิ่มให้เลื่อนหน้าแบบนุ่มนวล */
+
+body { 
+    background-color: var(--bg-dark); 
+    color: var(--text-main);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 196, 0, 0.05) 0%, transparent 40%),
+        url('https://images.unsplash.com/photo-1495430288918-03be19c7c485?q=80&w=2000');
+    background-size: cover;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
+    min-height: 100vh;
+}
+
+/* --- Components --- */
+.btn-gold { 
+    background: var(--gold); color: rgb(0, 0, 0); border: none; padding: 12px 30px; 
+    font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 5px;
+    text-transform: uppercase; letter-spacing: 1px; width: 100%;
+    font-size: 1rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+.btn-gold:hover { background: rgb(255, 255, 255); transform: translateY(-3px); box-shadow: 0 0 20px white; }
+
+.navbar {
+    position: fixed; top: 0; width: 100%; padding: 15px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0, 0, 0, 0.95); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000; backdrop-filter: blur(10px);
+}
+.logo { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--gold); text-shadow: var(--gold-glow); cursor: pointer; }
+.nav-links { list-style: none; display: flex; gap: 25px; }
+.nav-links a { text-decoration: none; color: #ffff00; transition: 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-icons { display: flex; gap: 20px; align-items: center; }
+.icon-btn { cursor: pointer; font-size: 1.3rem; position: relative; transition: 0.3s; }
+.icon-btn:hover { color: var(--gold); transform: scale(1.1); }
+.badge { position: absolute; top: -8px; right: -8px; background: var(--danger); font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; display: none; }
+
+/* --- HERO SECTION (ส่วนที่หายไป เพิ่มกลับมาให้แล้วครับ) --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 80px; /* เว้นที่ให้ Navbar */
+}
+
+.hero h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    line-height: 1.2;
+    text-shadow: 0 0 20px rgba(200, 200, 14, 0.8);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+/* --- Search Bar (ระบบใหม่) --- */
+.search-container {
+    text-align: center; margin-bottom: 30px;
+}
+.search-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #d9e00b;
+    padding: 10px;
+    width: 300px;
+    color: rgb(178, 167, 9);
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    transition: 0.3s;
+}
+.search-input:focus {
+    border-color: var(--gold);
+    width: 350px;
+}
+
+/* --- Product Grid --- */
+.section-title { text-align: center; font-family: 'Cinzel', serif; font-size: 2.5rem; color: var(--gold); margin: 50px 0; text-shadow: var(--gold-glow); }
+.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; padding: 0 50px 80px; }
+
+/* แก้ไขการ์ดสินค้าให้กดง่ายขึ้น */
+.product-card {
+    background: var(--card-bg); border: var(--card-border);
+    border-radius: 15px; overflow: hidden; transition: 0.4s; 
+    cursor: pointer; position: relative; z-index: 1;
+}
+.product-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.8), var(--gold-glow); }
+.product-card:active { transform: scale(0.98); } /* เพิ่ม Effect ตอนกด */
+
+/* เอา pointer-events: none ออกเพื่อให้แน่ใจว่าคลิกติดทุกอุปกรณ์ */
+.p-img { width: 100%; height: 280px; object-fit: cover; transition: 0.5s; }
+.p-info { padding: 20px; text-align: center; }
+.p-name { font-size: 1.2rem; margin: 10px 0; color: rgb(178, 167, 9); }
+.p-price { font-weight: bold; color: var(--gold); font-size: 1.2rem; }
+
+/* --- Modals --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: 0.3s;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-box {
+    background: #111; width: 1000px; max-width: 95%; max-height: 90vh;
+    border: 1px solid var(--gold); border-radius: 15px; display: flex;
+    box-shadow: 0 0 60px rgba(212,175,55,0.2); overflow: hidden; flex-direction: row;
+}
+.modal-close { position: absolute; top: 15px; right: 20px; color: white; font-size: 2rem; cursor: pointer; z-index: 10; }
+
+/* --- Checkout Form --- */
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; color: #aaa; margin-bottom: 5px; font-size: 0.9rem; }
+.form-input { 
+    width: 100%; padding: 12px; background: #222; border: 1px solid #444; 
+    color: white; border-radius: 5px; outline: none; font-size: 1rem;
+}
+.form-input:focus { border-color: var(--gold); }
+
+/* --- Filter Btn --- */
+.filter-btn {
+    background: transparent; border: 1px solid #444; color: #aaa;
+    padding: 8px 20px; margin: 0 5px; cursor: pointer; border-radius: 20px;
+    transition: 0.3s;
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); box-shadow: var(--gold-glow); }
+
+/* --- Chat --- */
+.chat-widget {
+    position: fixed; bottom: 20px; right: 20px; width: 350px; height: 450px;
+    background: #111; border: 1px solid var(--gold); border-radius: 15px;
+    z-index: 3000; box-shadow: 0 0 30px rgba(0,0,0,0.9);
+    display: flex; flex-direction: column; transform: translateY(120%); transition: 0.4s;
+}
+.chat-widget.active { transform: translateY(0); }
+
+/* --- Variant Btn --- */
+.variant-btn {
+    background: transparent; border: 1px solid #444; color: #aaa;
+    padding: 8px 15px; margin: 0 5px 5px 0; cursor: pointer; border-radius: 4px; transition: 0.3s;
+}
+.variant-btn:hover { border-color: var(--gold); color: white; }
+.variant-btn.active { background: var(--gold); color: black; border-color: var(--gold); font-weight: bold; }
+
+/* --- Toast --- */
+.toast {
+    position: fixed; top: 80px; right: 20px; background: #222;
+    border-left: 5px solid var(--gold); color: white; padding: 15px 25px;
+    border-radius: 5px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    z-index: 10000; transform: translateX(200%); transition: 0.5s;
+    display: flex; align-items: center; gap: 15px;
+}
+.toast.active { transform: translateX(0); }
+
+@media (max-width: 768px) {
+    .modal-box { flex-direction: column; overflow-y: auto; }
+    .hero h1 { font-size: 2.5rem; }
+}
+/* Responsive Mobile Support - Copy and paste at the end of style.css */
+
+@media screen and (max-width: 768px) {
+    h1 { font-size: 2rem !important; }
+
+    /* Navbar */
+    .navbar {
+        padding: 10px 15px !important;
+    }
+    .nav-links {
+        display: none !important;
+    }
+    .logo {
+        font-size: 1.2rem !important;
+    }
+
+    /* Product Grid: 2 Columns */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 10px !important;
+    }
+
+    /* Product Card */
+    .product-card img {
+        height: 180px !important;
+    }
+    .product-info {
+        padding: 10px !important;
+    }
+    .product-info h3 {
+        font-size: 0.9rem !important;
+    }
+
+    /* Cart Sidebar: Full Width */
+    #cart-sidebar {
+        width: 100% !important;
+        right: -100% !important;
+    }
+    #cart-sidebar.active {
+        right: 0 !important;
+    }
+
+    /* Modal / Popup */
+    .modal-content {
+        width: 95% !important;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 15px !important;
+        flex-direction: column !important;
+        display: block !important;
+    }
+    .modal-content img {
+        width: 100% !important;
+        height: auto !important;
+        margin-bottom: 15px;
+    }
+
+    /* Filter Bar: Scrollable */
+    .filter-bar {
+        display: flex !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        padding-bottom: 10px !important;
+        justify-content: flex-start !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    .filter-btn {
+        flex: 0 0 auto !important;
+        margin: 0 5px !important;
+    }
+
+    /* Chat Widget */
+    .chat-widget {
+        width: 90% !important;
+        right: 5% !important;
+        bottom: 10px !important;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .product-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
