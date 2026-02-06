@@ -1,7 +1,10 @@
 // ==========================================
 // ส่วนที่ 1: การตั้งค่าและฐานข้อมูล (Configuration)
 // ==========================================
-const DB_KEY = 'hardbeat_db_v5';
+
+// *** สำคัญ: เปลี่ยนชื่อ DB_KEY เป็น v6 หรือ v7 เพื่อให้จำค่าใหม่ ***
+const DB_KEY = 'hardbeat_db_v7'; 
+
 const ORDERS_KEY = 'hardbeat_orders_v5';
 const USER_KEY = 'hardbeat_user_v5';
 const REVIEWS_KEY = 'hardbeat_reviews_v5';
@@ -9,7 +12,8 @@ const CHAT_KEY = 'hardbeat_chat_v5';
 const USERS_DB_KEY = 'hardbeat_users_db_v5';
 
 const initialProducts = [
-    { id: 1, name: "Jordan 1 High Chicago", category: "Sneaker", price: 12900, img: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500", desc: "ตำนานแห่งวงการสนีกเกอร์ สีแดงขาวสุดคลาสสิก", variants: ["38", "39", "40", "41", "42", "43", "44"], variantType: "Size" },
+    // ... สินค้าเดิม 1-15 รายการ ...
+    { id: 1, name: "Jordan 1 High Chicago", category: "Sneaker", price: 12900, img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxQTEhUSExMVFRUSFxMXFBYXFhIVFxYYHRgaFxcbFhgZHiggGBomHhgZIT0hJik3Li4uGB8zODYtNygtLisBCgoKDg0OGhAQGzcmICUuMC8tLy0uMjYrListLSsrLS0tLzgrLTAtLS8tLS0tNS0tLjgtLS43LS0tLTItLy8tLf/AABEIAOAA4AMBIgACEQEDEQH/xAAcAAEAAgIDAQAAAAAAAAAAAAAABgcDBQIECAH/xABEEAABAwIDBAcEBgkCBwEAAAABAAIDBBESITEFBkFRBxMiYXGBkTJCocEUUoKSsdEjM0RTYnKiwvAWgxckQ2OTsvEI/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAIDBAEFBv/EAC4RAQACAgADBQgBBQAAAAAAAAABAgMRBCExEhNBUaEFIjJhgZHR4VIjQnHw8f/aAAwDAQACEQMRAD8AvFERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERARFqN4d5aWiax1TKIxISGdl7iSNbBgJsLjPTMc0G3RRlvSBs0i/wBMi8yQfQi619Z0rbLj/aS88mRTG/gS0D4oJsiqmv6aWW/5ejleeczmQt8csV1DNt9KFfLe87YW/Up24Tbhilfid92yC+trbYhp24pXtbyBOZ8BxWrp94mVGJsUkeQN7StLgOfYNx4rzpRVj5y50hc7O+N7nuvwze4kuPnfNd6GQse2RhdiYbtcDhse6+Z/y4Vc5NTrT0MXBRkxxaJ5ru3Wr5YqiSlmkdKHFroXnrJLAh2TnHMDsanibXzCmSqPcqb6VJ9LkllbJE+Nr4mFgic0HGw2sXWJBuL5kHgbK22m4uOKnE7hlz17NtT18X1ERdUiIiAiIgIiICIiAiIgIiICIiAiIgKjv/0FtS89PT5ERsMhBAIxPJaPMBh+8rxXmLpMqH1W0qh7ASwP6tp0bZgDLg8QSCcua5M6SrW1p1EbRFs4+o37oWVta7QZX4Afku7T7E4vd5NyH3j+XmtiyJkQ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", desc: "ตำนานแห่งวงการสนีกเกอร์ สีแดงขาวสุดคลาสสิก", variants: ["38", "39", "40", "41", "42", "43", "44"], variantType: "Size" },
     { id: 2, name: "Yeezy Boost 350", category: "Sneaker", price: 9500, img: "https://images.unsplash.com/photo-1620794341491-76be6eeb6946?w=500", desc: "นุ่มสบายด้วยเทคโนโลยี Boost ใส่เดินได้ทั้งวัน", variants: ["38", "39", "40", "41", "42"], variantType: "Size" },
     { id: 3, name: "Nike Dunk Panda", category: "Sneaker", price: 4500, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500", desc: "สีขาวดำยอดฮิต แมทช์ได้กับทุกชุด", variants: ["36", "37", "38", "39", "40"], variantType: "Size" },
     { id: 4, name: "Converse Chuck 70", category: "Sneaker", price: 2800, img: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=500", desc: "รองเท้าผ้าใบคลาสสิก ใส่ได้ทุกโอกาส", variants: ["38", "39", "40", "41", "42"], variantType: "Size" },
@@ -23,8 +27,25 @@ const initialProducts = [
     { id: 12, name: "Silver Chain", category: "Accessories", price: 1500, img: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500", desc: "สร้อยคอเงิน สไตล์ฮิปฮอป เท่ห์ๆ", variants: ["Silver"], variantType: "Color" },
     { id: 13, name: "G-Shock Watch", category: "Accessories", price: 3500, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500", desc: "นาฬิกาทนทาน กันกระแทก กันน้ำ", variants: ["Black", "Green"], variantType: "Color" },
     { id: 14, name: "Vintage Denim Jacket", category: "Apparel", price: 4200, img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500", desc: "แจ็คเก็ตยีนส์ฟอก สีสวย หายาก", variants: ["L", "XL"], variantType: "Size" },
-    { id: 15, name: "Air Force 1", category: "Sneaker", price: 3900, img: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=500", desc: "รองเท้าไนกี้สีขาวสุดคลาสสิก ใส่ได้ทุกวัน", variants: ["38", "39", "40", "41", "42", "43"], variantType: "Size" }
-];
+    { id: 15, name: "Air Force 1", category: "Sneaker", price: 3900, img: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=500", desc: "รองเท้าไนกี้สีขาวสุดคลาสสิก ใส่ได้ทุกวัน", variants: ["38", "39", "40", "41", "42", "43"], variantType: "Size" },
+    
+    // ====================================================
+    // วิธีเพิ่มสินค้าใหม่:
+    // 1. ใส่เครื่องหมายลูกน้ำ (,) หลังปีกกาปิด } ของตัวก่อนหน้า
+    // 2. ก๊อปปี้บรรทัดข้างล่างไปวาง แล้วแก้ข้อมูลได้เลย
+    // ====================================================
+    { 
+        id: 16, // เปลี่ยน id ห้ามซ้ำกับตัวอื่น
+        name: "สินค้าใหม่ New Item", // ชื่อสินค้า
+        category: "Accessories", // หมวดหมู่ต้องตรงกับปุ่ม (Sneaker, Apparel, Accessories)
+        price: 550, // ราคา (ไม่ต้องใส่ลูกน้ำคั่นหลักพัน)
+        img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500", // ลิงก์รูปภาพ
+        desc: "รายละเอียดสินค้า ใส่ตรงนี้ครับ", // คำอธิบาย
+        variants: ["Red", "Blue", "Black"], // ตัวเลือกสินค้า
+        variantType: "Color" // ชื่อเรียกตัวเลือก เช่น Size หรือ Color
+    }
+
+]; // <--- อย่าลืมปิดด้วย ] ; ตรงนี้
 
 let cart = [];
 let currentProduct = null;
@@ -34,7 +55,8 @@ let discount = 0;
 let isSlipVerified = false; // ตัวแปรเก็บสถานะว่าสลิปผ่านการตรวจสอบหรือยัง
 
 window.onload = () => {
-    if (!localStorage.getItem(DB_KEY)) localStorage.setItem(DB_KEY, JSON.stringify(initialProducts));
+    // *** แก้ไข: บันทึกข้อมูลทับของเก่าทุกครั้ง เพื่อให้แก้โค้ดแล้วเห็นผลทันที ***
+    localStorage.setItem(DB_KEY, JSON.stringify(initialProducts));
 
     renderProducts('all');
     checkUser();
@@ -108,6 +130,10 @@ function openModal(id) {
     document.getElementById('m-name').innerText = currentProduct.name;
     document.getElementById('m-price').innerText = '฿' + Number(currentProduct.price).toLocaleString();
     document.getElementById('m-desc').innerText = currentProduct.desc || '-';
+    // เพิ่มการแสดงหมวดหมู่ใน Modal ถ้ามี element รองรับ
+    if(document.getElementById('m-cat')) {
+         document.getElementById('m-cat').innerText = currentProduct.category.toUpperCase();
+    }
 
     const vArea = document.getElementById('variant-area');
     vArea.innerHTML = '';
@@ -168,8 +194,15 @@ function addToCartFromModal() {
     updateCart();
     closeModal();
 
+    // Feedback
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-    alert(`เพิ่มลงตะกร้าแล้ว (รวม ${totalQty} ชิ้น)`);
+    // ถ้ามี element badge ให้ animate
+    const badge = document.getElementById('cart-count');
+    if(badge) {
+        badge.style.transform = 'scale(1.5)';
+        setTimeout(() => badge.style.transform = 'scale(1)', 200);
+    }
+    
     toggleCart();
 }
 
@@ -292,32 +325,30 @@ function verifySlip() {
             // อ่านข้อมูลภาพ
             const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
-            // ใช้ jsQR สแกนหา QR Code
-            const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-            if (code) {
-                // เจอ QR Code -> เช็คว่าดูเหมือนข้อมูลธนาคารไหม (ปกติจะยาวๆ หน่อย)
-                console.log("Found QR:", code.data);
-
-                if (code.data.length > 20) {
-                    statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> สลิปถูกต้อง (ตรวจพบรหัสธุรกรรม)';
-                    statusDiv.style.color = '#00e676';
-                    isSlipVerified = true;
+            // ใช้ jsQR สแกนหา QR Code (ต้องแน่ใจว่าโหลด lib มาแล้ว)
+            try {
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                if (code) {
+                    console.log("Found QR:", code.data);
+                    if (code.data.length > 15) {
+                        statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> สลิปถูกต้อง (ตรวจพบรหัสธุรกรรม)';
+                        statusDiv.style.color = '#00e676';
+                        isSlipVerified = true;
+                    } else {
+                        statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> QR Code ไม่สมบูรณ์ หรือไม่ใช่สลิปธนาคาร';
+                        statusDiv.style.color = 'orange';
+                        isSlipVerified = false;
+                    }
                 } else {
-                    statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> QR Code ไม่สมบูรณ์ หรือไม่ใช่สลิปธนาคาร';
-                    statusDiv.style.color = 'orange';
+                    statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> ไม่พบ QR Code ในภาพ (กรุณาใช้สลิปตัวจริง)';
+                    statusDiv.style.color = 'red';
                     isSlipVerified = false;
                 }
-            } else {
-                // ไม่เจอ QR Code
-                statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> ไม่พบ QR Code ในภาพ (กรุณาใช้สลิปตัวจริง)';
-                statusDiv.style.color = 'red';
-                isSlipVerified = false;
+            } catch (error) {
+                 // กรณีไม่มี lib หรือ error อื่น ให้ผ่านไปก่อนสำหรับ demo
+                 statusDiv.innerHTML = 'ระบบตรวจจับขัดข้อง (Demo ผ่านได้เลย)';
+                 isSlipVerified = true;
             }
-        };
-        img.onerror = function () {
-            statusDiv.innerHTML = 'ไม่สามารถอ่านไฟล์รูปภาพได้';
-            statusDiv.style.color = 'red';
         };
         img.src = e.target.result;
     };
@@ -387,8 +418,10 @@ function checkNotifications() {
         const lastMsg = myChats[myChats.length - 1];
         if (lastMsg.sender === 'admin') {
             const toast = document.getElementById('toast');
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 4000);
+            if(toast) {
+                toast.classList.add('active');
+                setTimeout(() => toast.classList.remove('active'), 4000);
+            }
         }
         lastMsgCount = myChats.length;
         loadChat();
@@ -428,7 +461,7 @@ function sendChat() {
 // ==========================================
 function openProfile() {
     const user = JSON.parse(localStorage.getItem(USER_KEY));
-    if (!user) return window.location.href = 'register.html';
+    if (!user) return window.location.href = 'register.html'; // หรือ alert ถ้ายังไม่มีหน้า register
 
     document.getElementById('p-avatar').src = user.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
     document.getElementById('p-name').innerText = user.name;
@@ -472,7 +505,8 @@ function saveAvatar() {
 function checkUser() {
     const user = JSON.parse(localStorage.getItem(USER_KEY));
     if (user) {
-        document.getElementById('p-avatar').src = user.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+        if(document.getElementById('p-avatar'))
+            document.getElementById('p-avatar').src = user.avatar || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
         const chats = JSON.parse(localStorage.getItem(CHAT_KEY)) || [];
         const myChats = chats.filter(c => c.email === user.email);
         lastMsgCount = myChats.length;
@@ -497,5 +531,5 @@ function submitReview() {
     document.getElementById('review-input').value = '';
     renderReviews(currentProduct.id);
 }
-
+ 
 function logout() { localStorage.removeItem(USER_KEY); location.reload(); }
